@@ -7,7 +7,7 @@ func die(err os.Error) {
 }
 
 func main() {
-    server, err := net.Listen("tcp", "127.0.0.1:3640"); die(err)
+    server, err := net.Listen("tcp", "0.0.0.0:3640"); die(err)
     for {
         conn, err := server.Accept(); die(err)
         go func() {
