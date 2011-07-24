@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 	"flag"
-	"io"
-	"io/ioutil"
 	"net"
 	"log"
 	"os"
@@ -31,9 +29,10 @@ func sendrecv(addr string, done chan bool) {
 		done <- false
 		return
 	}
-	n64, err := io.Copy(ioutil.Discard, conn)
-	log.Printf("read %d byte from %s\n", n64, conn.RemoteAddr())
-	if err != nil {
+	var buf []byte
+	n, err = conn.Read(buf)
+	log.Printf("read %d byte from %s\n", n, conn.RemoteAddr())
+	if err != nil && err != os.EOF {
 		log.Println(err)
 		done <- false
 		return
