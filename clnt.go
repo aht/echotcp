@@ -10,16 +10,13 @@ import (
 
 var (
 	numGoroutine = flag.Int("c", 1024, "number of concurrent goroutines")
-	filename     = flag.String("f", "", "file to read data from")
 	byteCount    = flag.String("n", "", "max number of byte to send")
 )
 
 func sendrecv(addr string, done chan bool) {
 	conn, err := net.Dial("tcp", addr)
 	if err != nil {
-		log.Println(err)
-		done <- false
-		return
+		log.Fatal("fatal: ", err)
 	}
 	defer conn.Close()
 	n, err := conn.Write([]byte("I am tcpcc, Hello!"))
@@ -29,7 +26,7 @@ func sendrecv(addr string, done chan bool) {
 		done <- false
 		return
 	}
-	var buf []byte
+	buf := make([]byte, n)
 	n, err = conn.Read(buf)
 	log.Printf("read %d byte from %s\n", n, conn.RemoteAddr())
 	if err != nil && err != os.EOF {
