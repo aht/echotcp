@@ -2,7 +2,7 @@ var net = require('net'),
     util = require('util');
 
 var server = net.createServer(function (socket) {
-  n = 0;
+  var n = 0;
   socket.on('data', function (data) {
     socket.write(data);
     n += data.length;
@@ -15,4 +15,4 @@ var server = net.createServer(function (socket) {
   });
 });
 
-server.listen(3640, "127.0.0.1");
+server.listen(3640, "0.0.0.0");
