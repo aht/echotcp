@@ -9,7 +9,11 @@ func die(err os.Error) {
 func main() {
     server, err := net.Listen("tcp", "0.0.0.0:3640"); die(err)
     for {
-        conn, err := server.Accept(); die(err)
+        conn, err := server.Accept();
+        if err != nil {
+            log.Printf("error: %s", err)
+            continue
+        }
         go func() {
             defer conn.Close()
             n, err := io.Copy(conn, conn)

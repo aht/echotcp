@@ -1,7 +1,7 @@
-all: srv tcpcc
+include $(GOROOT)/src/Make.inc
 
-srv: srv.go
-	6g srv.go && 6l -o srv srv.6
+TARG=srv
+GOFILES=\
+	srv.go\
 
-tcpcc: clnt.go
-	6g clnt.go && 6l -o tcpcc clnt.6
+include $(GOROOT)/src/Make.cmd
